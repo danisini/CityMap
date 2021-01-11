@@ -13,9 +13,9 @@ private:
     int numCros;
 public:
     Path();
-    void addCrossroad(std::string, double);
+    void addCrossroad(const std::string&, const double&);
     std::string getLastCrossroad()const;
-    void removeLast(std::string, double);
+    void removeLast(const std::string&, const double&);
     bool operator<(const Path&)const;
     void print();
 };
@@ -33,7 +33,7 @@ void Path::print()
     }
     std::cout << crossroads[numCros - 1] << std::endl;
 }
-void Path::removeLast(std::string crossroad, double weight)
+void Path::removeLast(const std::string& crossroad, const double& weight)
 {
     crossroads.pop_back();
     cost -= weight;
@@ -49,7 +49,7 @@ std::string Path::getLastCrossroad()const
     if(numCros > 0)return crossroads[numCros - 1];
     else return "Empty path!";
 }
-void Path::addCrossroad(std::string crossroad, double weight)
+void Path::addCrossroad(const std::string& crossroad, const double& weight)
 {
     crossroads.push_back(crossroad);
     cost += weight;

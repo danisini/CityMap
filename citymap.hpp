@@ -26,27 +26,27 @@ class CityMap
         int numCross;
         std::string currCrossroad;
         bool interactive;
-        void dfs(std::string);
-        void dfsRev(std::string);
-        bool dfsCycle(std::string, std::string);
-        std::queue<std::string> eulerCycle(std::string);
+        void dfs(const std::string&);
+        void dfsRev(const std::string&);
+        bool dfsCycle(const std::string&, const std::string&);
+        std::queue<std::string> eulerCycle(const std::string&);
         bool isStronglyConnected();
-    public:
-        void open(std::string);
+        public:
+        void open(const std::string&);
         void setInteractive(){interactive = true;}
         bool getInteractive(){return interactive;}
-        std::string isThereAPath(std::string, std::string);
-        std::string fromOneToAll(std::string);
+        std::string isThereAPath(const std::string&, const std::string&);
+        std::string fromOneToAll(const std::string&);
         std::vector <Street> deadEnds();
-        std::string possibleToReturn(std::string);
+        std::string possibleToReturn(const std::string&);
         void possibleToVisitAllStreetsOnce();
-        void dijkstraForKPaths(std::string, std::string);
-        void dijkstraForKPathsWithClosed(std::string, std::string, std::vector <std::string>);
+        void dijkstraForKPaths(const std::string&, const std::string&);
+        void dijkstraForKPathsWithClosed(const std::string&, const std::string&, std::vector <std::string>);
         void location()const;
-        void change(std::string);
+        void change(const std::string&);
         void neighbours();
-        void close(std::string);
-        void openCross(std::string);
+        void close(const std::string&);
+        void openCross(const std::string&);
         void closed();
 };
 void CityMap::closed()
@@ -55,11 +55,11 @@ void CityMap::closed()
     for(it = closedCrossroads.begin(); it != closedCrossroads.end(); ++it)
         std::cout << it->first << std::endl;
 }
-void CityMap::openCross(std::string cross)
+void CityMap::openCross(const std::string& cross)
 {
     closedCrossroads.erase(cross);
 }
-void CityMap::close(std::string cross)
+void CityMap::close(const std::string& cross)
 {
     closedCrossroads[cross] = true;
 }
@@ -71,7 +71,7 @@ void CityMap::neighbours()
         std::cout << it->first << std::endl;
     }
 }
-void CityMap::change(std::string newCross)
+void CityMap::change(const std::string& newCross)
 {
     currCrossroad = newCross;
 }
@@ -79,13 +79,13 @@ void CityMap::location()const
 {
     std::cout << currCrossroad << std::endl;
 }
-void CityMap::dijkstraForKPathsWithClosed(std::string from, std::string to, std::vector <std::string> listClosed)
+void CityMap::dijkstraForKPathsWithClosed(const std::string& from, const std::string& to, std::vector <std::string> listClosed)
 {
     for(int i = 0; i < listClosed.size(); i ++)
         closedCrossroads[listClosed[i]] = 1;
     dijkstraForKPaths(from, to);
 }
-void CityMap::dijkstraForKPaths(std::string s, std::string t)
+void CityMap::dijkstraForKPaths(const std::string& s, const std::string& t)
 {
     std::vector <Path> paths;
     std::priority_queue <Path> pq;
@@ -141,7 +141,7 @@ bool CityMap::isStronglyConnected()
      if(used.size() != cnt) return 0;
      return 1;
 }
-std::queue<std::string> CityMap::eulerCycle(std::string x)
+std::queue<std::string> CityMap::eulerCycle(const std::string& x)
 {
     std::unordered_map <std::string, bool> visitedStreets;
     std::stack <std::string> eulerPathHelper;
@@ -225,13 +225,13 @@ void CityMap::possibleToVisitAllStreetsOnce()
         std::cout << ans.front() << std::endl;
     }
 }
-std::string CityMap::possibleToReturn(std::string crossroad)
+std::string CityMap::possibleToReturn(const std::string& crossroad)
 {
     used.clear();
     if(dfsCycle(crossroad, crossroad)) return "Yes, it is possible to return!";
     return "No, it isn't possible to return!";
 }
-bool CityMap::dfsCycle(std::string x, std::string from)
+bool CityMap::dfsCycle(const std::string& x, const std::string& from)
 {
     used[x] = 1;
     std::unordered_map <std::string, double> :: iterator it;
@@ -264,7 +264,7 @@ std::vector <Street> CityMap::deadEnds()
     }
     return ans;
 }
-std::string CityMap::fromOneToAll(std::string from)
+std::string CityMap::fromOneToAll(const std::string& from)
 {
     used.clear();
     dfs(from);
@@ -272,7 +272,7 @@ std::string CityMap::fromOneToAll(std::string from)
     return "No, there isn't a path from " + from + " to all the other crossroads!";
 }
 
-void CityMap::dfs(std::string x)
+void CityMap::dfs(const std::string& x)
 {
     used[x] = 1;
     std::unordered_map <std::string, double> :: iterator it;
@@ -280,21 +280,21 @@ void CityMap::dfs(std::string x)
         if(used.find(it -> first) == used.end())
             dfs(it -> first);
 }
-void CityMap::dfsRev(std::string x)
+void CityMap::dfsRev(const std::string& x)
 {
     used[x] = 1;
     for(int i = 0; i < adjRev[x].size(); i ++)
         if(used.find(adjRev[x][i]) == used.end())
             dfsRev(adjRev[x][i]);
 }
-std::string CityMap::isThereAPath(std::string from, std::string to)
+std::string CityMap::isThereAPath(const std::string& from, const std::string& to)
 {
     used.clear();
     dfs(from);
     if(used.find(to) == used.end())return "No, there isn't such a path from " + from + " to " + to +"!";
     return "Yes, there is a path from " + from + " to " + to +"!";
 }
-void CityMap::open(std::string input)
+void CityMap::open(const std::string& input)
 {
     currCrossroad = "There is no current crossroad!";
     numCross = 0;
