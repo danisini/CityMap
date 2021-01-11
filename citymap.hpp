@@ -22,16 +22,15 @@ class CityMap
         std::unordered_map <std::string, std::vector<std::string> >adjRev;
         std::unordered_map <std::string, int> crossroads;
         std::unordered_map <std::string, bool> used;
+        std::unordered_map <std::string, bool> closedCrossroads;
         int numCross;
         void dfs(std::string);
         void dfsRev(std::string);
         bool dfsCycle(std::string, std::string);
         std::queue<std::string> eulerCycle(std::string);
         bool isStronglyConnected();
-        std::unordered_map <std::string, bool> closedCrossroads;
         ///std::unordered_map<std::string, bool> isBlocked; for the bonus
     public:
-        CityMap();
         void open(std::string);
         std::string isThereAPath(std::string, std::string);
         std::string fromOneToAll(std::string);
@@ -39,17 +38,13 @@ class CityMap
         std::string possibleToReturn(std::string);
         void possibleToVisitAllStreetsOnce();
         void dijkstraForKPaths(std::string, std::string);
-        void dijkstraForKPathsWithClosed(std::string, std::string, std::vector <std::string>)
+        void dijkstraForKPathsWithClosed(std::string, std::string, std::vector <std::string>);
 };
 void CityMap::dijkstraForKPathsWithClosed(std::string from, std::string to, std::vector <std::string> listClosed)
 {
     for(int i = 0; i < listClosed.size(); i ++)
         closedCrossroads[listClosed[i]] = 1;
-    dijkstraForKPaths();
-}
-CityMap::CityMap()
-{
-
+    dijkstraForKPaths(from, to);
 }
 void CityMap::dijkstraForKPaths(std::string s, std::string t)
 {
@@ -74,12 +69,10 @@ void CityMap::dijkstraForKPaths(std::string s, std::string t)
             std::unordered_map <std::string, double> :: iterator it;
             for(it = adj[u].begin(); it != adj[u].end(); ++it)
             {
-                if(closedCrossroads.find(it->first) != closedCrossroads.end())
-                {
-                    curr.addCrossroad(it->first, it->second);
-                    pq.push(curr);
-                    curr.removeLast(it->first, it->second);
-                }
+                if(closedCrossroads.find(it->first) != closedCrossroads.end())continue;
+                curr.addCrossroad(it->first, it->second);
+                pq.push(curr);
+                curr.removeLast(it->first, it->second);
             }
         }
     }

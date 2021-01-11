@@ -12,10 +12,10 @@ private:
     double cost;
     int numCros;
 public:
+    Path();
     void addCrossroad(std::string, double);
     std::string getLastCrossroad()const;
     void removeLast(std::string, double);
-    Path();
     bool operator<(const Path&)const;
     void print();
 };

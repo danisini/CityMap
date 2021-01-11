@@ -27,58 +27,69 @@ void Menu::help()
 }
 Menu::Menu()
 {
-    cout << "Hello! Please, input the directory of the file you will be using:" << endl;
-    string input;
-    cin >> input;
+    std::cout << "Hello! Please, input the directory of the file you will be using:" << std::endl;
+    std::string input;
+    std::cin >> input;
     cityMap.open(input);
-    cout << "For more information input 8!" << endl;
+    std::cout << "For more information input 8!" << std::endl;
     int num = 0;
-    string cross1, cross2;
+    std::string cross1, cross2;
     while(num != 9)
     {
-        cin >> num;
+        std::cin >> num;
         if(num == 1)
         {
-            cin >> cross1 >> cross2;
-            cityMap.isThereAPath(cross1, cross2);
+            std::cin >> cross1 >> cross2;
+            std::cout << cityMap.isThereAPath(cross1, cross2) << std::endl;
         }
         else if(num == 2)
         {
-            cin >> cross1 >> cross2;
+            std::cin >> cross1 >> cross2;
             cityMap.dijkstraForKPaths(cross1, cross2);
         }
         else if(num == 3)
         {
-            cin >> cross1 >> cross2;
+            std::cin >> cross1 >> cross2;
             int numCrossesClosed;
-            cin >> numCrossesClosed;
-            std::vector <string> closed;
-            string cross;
+            std::cin >> numCrossesClosed;
+            std::vector <std::string> closed;
+            std::string cross;
             for(int i = 0; i < numCrossesClosed; i ++)
             {
-                cin >> cross;
+                std::cin >> cross;
                 closed.push_back(cross);
             }
             cityMap.dijkstraForKPathsWithClosed(cross1, cross2, closed);
         }
         else if(num == 4)
         {
-            cin >> cross1;
-            cityMap.possibleToReturn(cross1);
+            std::cin >> cross1;
+            std::cout << cityMap.possibleToReturn(cross1) << std::endl;
         }
         else if(num == 5)
             cityMap.possibleToVisitAllStreetsOnce();
         else if(num == 6)
         {
-            cin >> cross1;
-            cityMap.fromOneToAll(cross1);
+            std::cin >> cross1;
+            std::cout << cityMap.fromOneToAll(cross1) << std::endl;
         }
         else if(num == 7)
-            cityMap.deadEnds();
+        {
+            std::vector <Street> v = cityMap.deadEnds();
+            std::cout << "Dead ends:" << std::endl;
+            for(int i = 0; i < v.size(); i ++)
+            {
+                std::cout <<"From " << v[i].from << " to " << v[i].to << std::endl;
+            }
+        }
         else if(num == 8)
             help();
         else if(num == 9)break;
-        else std::cout << "Not a valid command!" << endl;
+        else
+        {
+            std::cout << "Not a valid command!" << std::endl;
+            break;
+        }
     }
 
 }

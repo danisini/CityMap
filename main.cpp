@@ -1,14 +1,15 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include "citymap.hpp"
+#include "menu.hpp"
 using namespace std;
 int main()
 {
-    string input;
-    cin >> input;
-    //D:\University\SDP\CityMap\input.1.txt
-    CityMap cityMap(input);
+    //string input;
+    //cin >> input;
+    Menu m;
+    ///D:\University\SDP\CityMap\input.1.txt
+    /*CityMap cityMap(input);
     cout << cityMap.isThereAPath("NDK", "BSFS") << endl;;
     cout << cityMap.fromOneToAll("BSFS") << " " << cityMap.fromOneToAll("Popa") << " " << cityMap.fromOneToAll("5Kiosheta") << endl;
     vector <Street> v = cityMap.deadEnds();
@@ -19,6 +20,7 @@ int main()
     cout << cityMap.possibleToReturn("BSFS") << endl;
     cityMap.possibleToVisitAllStreetsOnce();
     cityMap.dijkstraForKPaths("Popa", "5Kiosheta");
+    */
     return 0;
 }
 /*
