@@ -89,11 +89,15 @@ Menu::Menu()
         else if(num == 7)
         {
             std::vector <Street> v = cityMap.deadEnds();
-            std::cout << "Dead ends:" << std::endl;
-            for(int i = 0; i < v.size(); i ++)
+            if(v.size() != 0)
             {
-                std::cout <<"From " << v[i].from << " to " << v[i].to << std::endl;
+                std::cout << "Dead ends:" << std::endl;
+                for(int i = 0; i < v.size(); i ++)
+                {
+                    std::cout <<"From " << v[i].from << " to " << v[i].to << std::endl;
+                }
             }
+            else std::cout << "There are no dead ends!" << std::endl;
         }
         else if(num == 8)
             help();

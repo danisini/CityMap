@@ -172,7 +172,6 @@ void CityMap::possibleToVisitAllStreetsOnce()
     {
         if(adj[it->first].size() != adjRev[it->first].size())
         {
-            std::cout << it->first << std::endl;
             if(adj[it->first].size() - adjRev[it->first].size() == 1) out = it->first;
             else
             if(adjRev[it->first].size() - adj[it->first].size() == 1) in = it->first;
@@ -183,16 +182,10 @@ void CityMap::possibleToVisitAllStreetsOnce()
     ///there are two options - euler's path or euler's circle
     if((cnt != 2 && cnt != 0) || (cnt == 2 && (in == "" || out == "")))
     {
-        std::cout << "Here " << cnt <<std::endl;
         std::cout << "It is not possilbe to visit all streets once" << std::endl;
         return;
     }
-    std::cout <<"in = " << in <<  "3" << std::endl;
-    std::cout << in << " " << cnt <<" "<< out << std::endl;
-    if(cnt == 2)
-    {
-        adj[in][out] = 0;
-    }
+    if(cnt == 2)adj[in][out] = 0;
     if(isStronglyConnected() == false)
     {
         if(cnt == 2)adj[in].erase(out);
@@ -257,11 +250,8 @@ std::vector <Street> CityMap::deadEnds()
     Street a;
     for(it = crossroads.begin(); it != crossroads.end(); ++ it)
     {
-        std::cout << it->first << " " << adj[it->first].size() << std::endl;
-
         if(adj[it->first].size() == 0)
         {
-            std::cout << "bam" << std::endl;
             a.to = it->first;
             for(int i = 0; i < adjRev[it->first].size(); i ++)
             {
@@ -322,7 +312,6 @@ void CityMap::open(std::string input)
     while(!iFile.eof())
     {
         iFile >> start;
-        std::cout << start << " ";
         if(crossroads.find(start) == crossroads.end())
         {
             crossroads[start] = numCross;
