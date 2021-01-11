@@ -24,6 +24,8 @@ class CityMap
         std::unordered_map <std::string, bool> used;
         std::unordered_map <std::string, bool> closedCrossroads;
         int numCross;
+        std::string currCrossroad;
+        bool interactive;
         void dfs(std::string);
         void dfsRev(std::string);
         bool dfsCycle(std::string, std::string);
@@ -32,6 +34,8 @@ class CityMap
         ///std::unordered_map<std::string, bool> isBlocked; for the bonus
     public:
         void open(std::string);
+        void setInteractive(){interactive = true;}
+        bool getInteractive(){return interactive;}
         std::string isThereAPath(std::string, std::string);
         std::string fromOneToAll(std::string);
         std::vector <Street> deadEnds();
@@ -39,7 +43,43 @@ class CityMap
         void possibleToVisitAllStreetsOnce();
         void dijkstraForKPaths(std::string, std::string);
         void dijkstraForKPathsWithClosed(std::string, std::string, std::vector <std::string>);
+        void location()const;
+        void change(std::string);
+        void neighbours();
+        void close(std::string);
+        void openCross(std::string);
+        void closed();
 };
+void CityMap::closed()
+{
+    std::unordered_map <std::string, bool> :: iterator it;
+    for(it = closedCrossroads.begin(); it != closedCrossroads.end(); ++it)
+        std::cout << it->first << std::endl;
+}
+void CityMap::openCross(std::string cross)
+{
+    closedCrossroads.erase(cross);
+}
+void CityMap::close(std::string cross)
+{
+    closedCrossroads[cross] = true;
+}
+void CityMap::neighbours()
+{
+    std::unordered_map <std::string, double> :: iterator it;
+    for(it = adj[currCrossroad].begin(); it != adj[currCrossroad].end(); ++it)
+    {
+        std::cout << it->first << std::endl;
+    }
+}
+void CityMap::change(std::string newCross)
+{
+    currCrossroad = newCross;
+}
+void CityMap::location()const
+{
+    std::cout << currCrossroad << std::endl;
+}
 void CityMap::dijkstraForKPathsWithClosed(std::string from, std::string to, std::vector <std::string> listClosed)
 {
     for(int i = 0; i < listClosed.size(); i ++)
@@ -264,7 +304,9 @@ std::string CityMap::isThereAPath(std::string from, std::string to)
 }
 void CityMap::open(std::string input)
 {
+    currCrossroad = "There is no current crossroad!";
     numCross = 0;
+    interactive = false;
     std::ifstream iFile;
     iFile.open(input, std::ios::in);
     if (!iFile.is_open())

@@ -23,7 +23,16 @@ void Menu::help()
     std::cout << "7                                         |" << "finds all dead ends" << std::endl;
     std::cout << "8                                         |" << "help command" << std::endl;
     std::cout << "9                                         |" << "closes the menu" << std::endl;
-
+    if(cityMap.getInteractive() == true)
+    {
+         std::cout << "10                                        |" << "outputs the current crossroad" << std::endl;
+         std::cout << "11 <cross>                                |" << "changes the current crossroad" << std::endl;
+         std::cout << "12                                        |" << "outputs the neighbours of the current crossroad" << std::endl;
+         std::cout << "13 <cross>                                |" << "adds cross to closed crossroads" << std::endl;
+         std::cout << "14 <cross>                                |" << "removes cross from closed crossroads" << std::endl;
+         std::cout << "15                                        |" << "outputs all the closed crossroads" << std::endl;
+         std::cout << "16                                        |" << "outputs an Eulerian path" << std::endl;
+    }
 }
 Menu::Menu()
 {
@@ -31,6 +40,10 @@ Menu::Menu()
     std::string input;
     std::cin >> input;
     cityMap.open(input);
+    std::cout << "Do you want to turn on interactive mode? Y/N" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if(ans == 'Y') cityMap.setInteractive();
     std::cout << "For more information input 8!" << std::endl;
     int num = 0;
     std::string cross1, cross2;
@@ -85,6 +98,37 @@ Menu::Menu()
         else if(num == 8)
             help();
         else if(num == 9)break;
+        else if(cityMap.getInteractive() == true)
+        {
+            if(num == 10)
+                cityMap.location();
+            else if(num == 11)
+            {
+                std::cin >> cross1;
+                cityMap.change(cross1);
+            }
+            else if(num == 12)
+                cityMap.neighbours();
+            else if(num == 13)
+            {
+                std::cin >> cross1;
+                cityMap.close(cross1);
+            }
+            else if(num == 14)
+            {
+                std::cin >> cross1;
+                cityMap.openCross(cross1);
+            }
+            else if(num == 15)
+                cityMap.closed();
+            else if(num == 16)
+                cityMap.possibleToVisitAllStreetsOnce();
+            else
+            {
+                std::cout << "Not a valid command!" << std::endl;
+                break;
+            }
+        }
         else
         {
             std::cout << "Not a valid command!" << std::endl;
