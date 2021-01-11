@@ -116,7 +116,9 @@ void CityMap::dijkstraForKPaths(std::string s, std::string t)
             }
         }
     }
-    for(int i = 0; i < paths.size(); i ++)
+    if(paths.size() < 3) std::cout << "There are not 3 different ways to achieve this!" << std::endl;
+    else
+    for(int i = 0; i < 3; i ++)
         paths[i].print();
 }
 bool CityMap::isStronglyConnected()
@@ -196,12 +198,12 @@ void CityMap::possibleToVisitAllStreetsOnce()
     {
         std::queue<std::string> ans = eulerCycle(out);
         int sz = ans.size();
-        for(int i = 0; i < sz - 1; i ++)
+        for(int i = 0; i < sz - 2; i ++)
         {
-            std::cout << ans.front() << std::endl;
+            std::cout << ans.front() << " --> ";
             ans.pop();
         }
-        ans.pop();
+        std::cout << ans.front() << std::endl;
         adj[in].erase(out);
     }
     else
@@ -216,11 +218,12 @@ void CityMap::possibleToVisitAllStreetsOnce()
             }
         }
         std::queue<std::string> ans = eulerCycle(start);
-        while(!ans.empty())
+        while(ans.size() > 1)
         {
-            std::cout << ans.front() << std::endl;
+            std::cout << ans.front() << " --> ";
             ans.pop();
         }
+        std::cout << ans.front() << std::endl;
     }
 }
 std::string CityMap::possibleToReturn(std::string crossroad)
