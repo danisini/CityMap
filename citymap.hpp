@@ -31,7 +31,6 @@ class CityMap
         bool dfsCycle(std::string, std::string);
         std::queue<std::string> eulerCycle(std::string);
         bool isStronglyConnected();
-        ///std::unordered_map<std::string, bool> isBlocked; for the bonus
     public:
         void open(std::string);
         void setInteractive(){interactive = true;}
